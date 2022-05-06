@@ -10,5 +10,6 @@ data class MovieListingEntity(
     val producerName: String,
     val releaseDate: String,
     val episode: Int,
+    val charactersId:List<Int>,
     @PrimaryKey val id:Int? = null
 )

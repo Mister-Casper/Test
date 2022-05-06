@@ -7,5 +7,6 @@ data class MovieModel(
     @SerializedName("director") val directorName: String,
     @SerializedName("producer") val producerName: String,
     @SerializedName("release_date") val releaseDate: String,
-    @SerializedName("episode_id") val episode: Int
+    @SerializedName("episode_id") val episode: Int,
+    @SerializedName("characters") val characters:List<String>
 )

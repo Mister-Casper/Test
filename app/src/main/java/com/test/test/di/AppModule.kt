@@ -22,9 +22,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMoviesApi(): MoviesApi {
-        // Сайт с апи медленно работал, пришлось увеличить таймаут, вроде у них просто временная проблема
         val client = OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()

@@ -18,9 +18,11 @@ interface MoviesDao {
         SELECT *
         FROM MovieListingEntity
         WHERE LOWER(movieName) LIKE '%' || LOWER(:query) || '%' 
-         ORDER BY episode
+        ORDER BY episode
     """
     )
     suspend fun searchMovieListing(query: String): List<MovieListingEntity>
 
+    @Query("SELECT movieName FROM MovieListingEntity WHERE episode =(:episodeId)")
+    suspend fun getEpisodeName(episodeId: Int) : String
 }

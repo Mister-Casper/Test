@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Test</string>
-    <string name="cant_load_data">Не удалось загрузить данные.</string>
+    <string name="cant_load_data">Не удалось загрузить данные. Прорверьте ваше интернет соединение и повторите попытку позже.</string>
     <string name="movie_name">Название : %1$s</string>
     <string name="director_name">Режиссёр : %1$s</string>
     <string name="producer_name">Продюссер : %1$s</string>
     <string name="year">Год : %1$s</string>
-    <string name="search">Поиск...</string>
+    <string name="search">Поиск…</string>
 
+    <string name="character_name">Имя : %1$s</string>
+    <string name="character_gender">Пол : %1$s</string>
+    <string name="character_year">Год рождения : %1$s</string>
 </resources>
