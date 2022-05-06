@@ -78,14 +78,14 @@ class MoviesRepositoryImpl @Inject constructor(
     override suspend fun getCharacters(episodeId: Int): Flow<Resource<List<CharacterListing>>> {
         return flow {
             emit(Resource.Loading(true))
-            val remoteCharacters = mutableListOf<CharacterListingEntry>()
+            val characters = mutableListOf<CharacterListingEntry>()
             val characterIds =
                 moviesDao.searchMovieListing("").find { it.episode == episodeId }!!.charactersId
             characterIds.forEach { id ->
                 val character = characterDao.getCharacterById(id)
                 if (character == null) {
                     try {
-                        remoteCharacters.add(
+                        characters.add(
                             jsonConverter.convertToCharacterListing(
                                 moviesApi.getCharacter(
                                     id
@@ -94,21 +94,21 @@ class MoviesRepositoryImpl @Inject constructor(
                         )
                     } catch (e: IOException) {
                         e.printStackTrace()
+                        emit(Resource.Loading(false))
                         emit(Resource.Error(StringResource(R.string.cant_load_data)))
                         return@flow
                     } catch (e: HttpException) {
                         e.printStackTrace()
+                        emit(Resource.Loading(false))
                         emit(Resource.Error(StringResource(R.string.cant_load_data)))
                         return@flow
                     }
-                }
+                }else
+                    characters.add(characterDao.getCharacterById(id)!!)
             }
-            characterDao.insertCharacterListings(remoteCharacters)
+            characterDao.insertCharacterListings(characters)
             emit(Resource.Loading(false))
-            emit(
-                Resource.Success(
-                    characterDao.getLocalCharacters().map { it.toCharacterListing() })
-            )
+            emit(Resource.Success(characters.map { it.toCharacterListing() }))
         }
     }
 
