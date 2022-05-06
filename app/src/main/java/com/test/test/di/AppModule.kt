@@ -1,6 +1,7 @@
 package com.test.test.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.test.test.data.local.MoviesDatabase
 import com.test.test.data.remote.MoviesApi
@@ -38,5 +39,11 @@ object AppModule {
     @Singleton
     fun provideMoviesDatabase(app: Application): MoviesDatabase {
         return Room.databaseBuilder(app, MoviesDatabase::class.java, "movies.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideContext(app: Application): Context {
+        return app
     }
 }

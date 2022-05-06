@@ -52,7 +52,7 @@ fun CharacterListingsScreen(
             if (state.errorMassage != null) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     Text(
-                        text = state.errorMassage.getText(LocalContext.current),
+                        text = state.errorMassage,
                         fontSize = 24.sp,
                         color = Color.Red,
                         textAlign = TextAlign.Center,

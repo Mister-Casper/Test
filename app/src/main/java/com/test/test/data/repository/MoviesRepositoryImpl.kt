@@ -1,5 +1,6 @@
 package com.test.test.data.repository
 
+import android.content.Context
 import com.test.test.R
 import com.test.test.data.json.JsonConverter
 import com.test.test.data.local.CharacterListingEntry
@@ -14,11 +15,8 @@ import com.test.test.domain.model.CharacterListing
 import com.test.test.domain.model.MovieListing
 import com.test.test.domain.repository.MoviesRepository
 import com.test.test.util.Resource
-import com.test.test.util.StringResource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -29,7 +27,8 @@ class MoviesRepositoryImpl @Inject constructor(
     private val moviesApi: MoviesApi,
     db: MoviesDatabase,
     private val jsonConverter: JsonConverter,
-    private val releaseDateConverter: ReleaseDateConverter
+    private val releaseDateConverter: ReleaseDateConverter,
+    private val context: Context
 ) : MoviesRepository {
 
     private val moviesDao = db.moviesDao
@@ -54,11 +53,11 @@ class MoviesRepositoryImpl @Inject constructor(
 
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    emit(Resource.Error(StringResource(R.string.cant_load_data)))
+                    emit(Resource.Error(context.getString(R.string.cant_load_data)))
                     null
                 } catch (e: HttpException) {
                     e.printStackTrace()
-                    emit(Resource.Error(StringResource(R.string.cant_load_data)))
+                    emit(Resource.Error(context.getString(R.string.cant_load_data)))
                     null
                 }
                 remoteMovieListings?.let {
@@ -95,12 +94,12 @@ class MoviesRepositoryImpl @Inject constructor(
                     } catch (e: IOException) {
                         e.printStackTrace()
                         emit(Resource.Loading(false))
-                        emit(Resource.Error(StringResource(R.string.cant_load_data)))
+                        emit(Resource.Error(context.getString(R.string.cant_load_data)))
                         return@flow
                     } catch (e: HttpException) {
                         e.printStackTrace()
                         emit(Resource.Loading(false))
-                        emit(Resource.Error(StringResource(R.string.cant_load_data)))
+                        emit(Resource.Error(context.getString(R.string.cant_load_data)))
                         return@flow
                     }
                 }else
